@@ -1,0 +1,2 @@
+module JobsExamplesHelper
+end
