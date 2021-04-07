@@ -7,7 +7,6 @@ module Scrappers
       p '[Getting news to go]'
       15.times do |index|
         page = index + 1
-        p "Page #{page}"
         url = "https://news.ycombinator.com/news?p=#{page}"
         # Open the HTML to make Nokogiri use it
         html = HTTParty.get(url)
@@ -15,6 +14,8 @@ module Scrappers
         @parse_page = Nokogiri::HTML(html.body)
 
         build_news
+
+        p "Page #{page} done"
       end
 
       save_news
@@ -28,7 +29,6 @@ module Scrappers
 
       def build_news
         @parse_page.css('.athing').each do |element|
-          p element
           rank = element.css('td[1] > .rank').text.gsub(/\n/, '')
           title = element.css('td[3] > .storylink').text.gsub(/\n/, '')
           sitebit = element.css('td[3] > .sitebit > a .sitestr').text.gsub(/\n/, '')
